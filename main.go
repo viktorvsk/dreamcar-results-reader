@@ -31,9 +31,9 @@ func main() {
 }
 
 func GetAccountsServer(w http.ResponseWriter, r *http.Request) {
-	var accountName = strings.ToLower(r.URL.Path[1:])
+	var accountName = r.URL.Path[1:]
 
-	accountID, err := rdb.Get(ctx, accountName).Result()
+	accountID, err := rdb.Get(ctx, strings.ToLower(accountName)).Result()
 	if err != nil && err != redis.Nil {
 		panic(err)
 	}
