@@ -7,6 +7,7 @@ import (
 	"github.com/go-redis/redis/v8"
 	"net/http"
 	"os"
+	"strings"
 )
 
 var redisAddr = fmt.Sprintf("%s:%s", os.Getenv("REDIS_HOST"), os.Getenv("REDIS_PORT"))
@@ -30,7 +31,7 @@ func main() {
 }
 
 func GetAccountsServer(w http.ResponseWriter, r *http.Request) {
-	var accountName = r.URL.Path[1:]
+	var accountName = strings.ToLower(r.URL.Path[1:])
 
 	accountID, err := rdb.Get(ctx, accountName).Result()
 	if err != nil && err != redis.Nil {
